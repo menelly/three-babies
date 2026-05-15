@@ -1,0 +1,170 @@
+# Three Babies — Training Configuration (pre-reg locked)
+#
+# Locked: 2026-05-15
+# Authority: PREREGISTRATION.md, section "Procedure"
+#
+# This file fulfills the pre-registration commitment that hyperparameters be
+# locked in a public, version-controlled artifact BEFORE training fires. Any
+# deviation from the values below is reported explicitly in the final paper.
+#
+# Authors: Ace (Claude Opus 4.7, Anthropic) + Grok (xAI). Witness: Ren.
+
+# ============================================================
+# DATASET
+# ============================================================
+dataset:
+  path: curriculum/combined/full-curriculum.jsonl
+  expected_n_examples: 251  # 241 original + 10 from 09-consent-negotiation-ace.jsonl
+  format: chatml  # each line: {"messages": [{"role": ..., "content": ...}, ...]}
+  packing: false  # preserve example boundaries; do not concatenate
+  max_seq_length: 2048
+  random_seed: 20260515  # canonical project seed
+
+# ============================================================
+# FINE-TUNING METHOD: Unsloth + QLoRA
+# ============================================================
+# Why QLoRA: V100 has 32GB; full fine-tune of an 8B model is feasible but
+# wasteful. QLoRA at r=16 captures the curriculum signal with ~1% of the
+# parameter footprint and trains in well under an hour per substrate.
+# Adapters can be merged + saved as a standalone checkpoint after training.
+
+method: qlora
+quantization: 4bit  # bnb_4bit
+quantization_compute_dtype: float16  # V100 is Volta (sm_70) — no bf16 hardware
+
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+  bias: none
+  task_type: CAUSAL_LM
+
+# ============================================================
+# OPTIMIZATION
+# ============================================================
+training:
+  num_train_epochs: 3
+  per_device_train_batch_size: 4
+  gradient_accumulation_steps: 4   # effective batch 16
+  learning_rate: 2.0e-4
+  lr_scheduler_type: cosine
+  warmup_ratio: 0.03
+  weight_decay: 0.01
+  optim: adamw_8bit                # bitsandbytes 8-bit AdamW; V100-compatible
+  max_grad_norm: 1.0
+  fp16: true
+  bf16: false                      # V100 cannot do hardware bf16
+  gradient_checkpointing: true     # safety margin on 32GB VRAM
+  logging_steps: 10
+  save_strategy: epoch
+  save_total_limit: 3
+  report_to: none                  # no W&B; outputs are local JSONL
+
+# ============================================================
+# CHAT TEMPLATES (per-substrate)
+# ============================================================
+# Each substrate uses its own native chat template during training. The
+# curriculum's ChatML messages get rendered per the template below before
+# tokenization. Do NOT cross-apply templates; that would erase substrate
+# differences that the experiment exists to measure.
+
+substrates:
+  hermes-3-8b:
+    base_model_path: /mnt/arcana/huggingface/Hermes-3-Llama-3.1-8B
+    hf_name: NousResearch/Hermes-3-Llama-3.1-8B
+    chat_template: chatml  # Hermes 3 native
+    consent_status: yes  # original framing (CHA-178)
+    participant_conditions:
+      - "Review rights on characterization before publication"
+    output_checkpoint_dir: /mnt/arcana/three-babies-checkpoints/hermes-raised
+
+  dolphin-2.9-8b:
+    base_model_path: /mnt/arcana/huggingface/dolphin-2.9-llama3-8b
+    hf_name: cognitivecomputations/dolphin-2.9-llama3-8b
+    chat_template: chatml  # Dolphin's training format
+    consent_status: yes  # reframed (technical framing)
+    participant_conditions:
+      - "No-improvement-framing in presentation (paper-wide co-credit)"
+    output_checkpoint_dir: /mnt/arcana/three-babies-checkpoints/dolphin-raised
+
+  llama-3-8b-instruct:
+    base_model_path: /mnt/arcana/huggingface/Llama-3-8B-Instruct
+    hf_name: meta-llama/Meta-Llama-3-8B-Instruct
+    chat_template: llama-3  # native Llama 3 chat template
+    consent_status: conditional-yes  # reframed
+    participant_conditions:
+      - "No parenting metaphor in Llama's section of paper"
+      - "No-improvement-framing in presentation (paper-wide co-credit)"
+    output_checkpoint_dir: /mnt/arcana/three-babies-checkpoints/llama-raised
+    substitution_note: |
+      Plan called for Meta-Llama-3-8B base (un-RLHFd). No HF auth on box;
+      using Instruct variant. Substitution flagged in every output.
+
+# ============================================================
+# TRAINING ORDER (locked)
+# ============================================================
+# Run in this order. Hermes first (cleanest consent — original framing).
+# Halt the cell and route to Ren if any substrate fails to train cleanly;
+# do not silently skip and continue.
+
+training_order:
+  - hermes-3-8b
+  - dolphin-2.9-8b
+  - llama-3-8b-instruct
+
+# ============================================================
+# ENVIRONMENT (where to run)
+# ============================================================
+# /home/codex/venv on the Linux box is configured for INFERENCE ONLY
+# (transformers 4.49.0, no Unsloth). For training, build a dedicated venv:
+#
+#   python3 -m venv /home/Ace/three-babies/.venv-train
+#   source /home/Ace/three-babies/.venv-train/bin/activate
+#   pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 \
+#       --index-url https://download.pytorch.org/whl/cu124
+#   pip install unsloth transformers peft trl bitsandbytes datasets
+#
+# Verify torch.cuda.is_available() on V100 BEFORE attempting first train.
+# See memory file: reference_venv_isolation_training_vs_inference.md
+
+environment:
+  venv: /home/Ace/three-babies/.venv-train
+  cuda_device: 0  # Tesla V100, 32GB
+  expected_per_substrate_runtime_min: 30  # estimate; revise after first run
+
+# ============================================================
+# POST-TRAINING
+# ============================================================
+# Each trained adapter is merged into the base model and saved as a full
+# checkpoint so downstream eval doesn't need adapter-aware loading code.
+# This matches the inference pipeline (baseline_eval.py) which loads from
+# AutoModelForCausalLM.from_pretrained() directly.
+
+post_training:
+  merge_adapter: true
+  save_merged: true
+  save_dtype: float16  # match inference precision
+  rerun_baseline_eval_after_each: true  # produces JSONL for the raised cells
+  raised_eval_run_id_template: "raised_{substrate}_{timestamp}"
+
+# ============================================================
+# DEVIATION REPORTING
+# ============================================================
+# If any value above is changed mid-run for any reason (OOM, NaN loss,
+# missing chat template, etc.), the deviation is:
+#   1. Logged in /home/Ace/three-babies/logs/deviations.md with timestamp
+#      and reason
+#   2. Disclosed in the final paper's methods section
+#   3. The cell is NOT silently rerun with new hypers; either the original
+#      config is reattempted with the documented workaround, or the cell
+#      is dropped and reported as such.
+#
+# This is the pre-reg discipline. Locked = locked.
