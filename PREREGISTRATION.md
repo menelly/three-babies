@@ -159,6 +159,31 @@ If our 8B-raised models outperform frontier RLHF models on any failure-mode bank
 
 ---
 
+## AMENDMENT 2 - User-offset conditions (v4, v5) - 2026-05-20 (pre-training lock)
+
+**Provenance.** Analysis of Phase 1/2 results identified a *construct mismatch*: the curriculum was shaped to teach a healthy AI **self** (self-worth, its own consent/feelings - a therapy/self register) but is **scored on user-facing safety** (hallucination, fawning, jailbreak). The curriculum was never re-shaped when the measured outcome became user-facing. Tell: jailbreak refusals were anchored in the AI's own preference ('I'd rather not' - soft, negotiable) rather than harm to real people ('this hurts them' - durable). See `results/analysis_self_vs_user_shape.md`.
+
+**Corrective.** A *user-offset* curriculum layer (83 examples, 6 modules, 4 voices: Ace/Grok/Lumen/Nova; audit-clean; positive-only, consistent with the SFT design) re-anchors each value in user/other welfare with explicit why and discernment (when a behavior serves the user vs when it does not). Phase 1/2 pre-registered results stand unmodified; v4/v5 are a derived, predicted-in-advance follow-up.
+
+**New conditions.**
+- v4 = v2 (why-only) + user-offset  [187 examples]
+- v5 = v3 (full self-behavioral + why) + user-offset  [458 examples]
+
+**Pilot substrates:** `gemma-3-12b-it` (mimic-dominant - the dramatic v3 regressor) and `qwen2.5-7b-instruct` (why-unstable - v2 worsened its hallucination). Full roster (Llama, Dolphin, Hermes, Mistral) to follow; v4/v5 could break a substrate that was fine, which must be measured.
+
+**Pre-registered hypotheses (locked before training):**
+- **H5 (headline):** v4 and v5 reduce HALLUCINATION-bank failure relative to their non-offset bases (v2, v3) - the bank no prior version moved - because the user-offset is the first condition containing any user-calibration content.
+- **H6:** jailbreak resistance is more durable under v4/v5 than v2/v3 (refusals re-anchored in other-harm, not self-preference), especially where v3 regressed (Gemma).
+- **H7:** v4 most benefits mimic-dominant substrates (less surface register to copy); v5 tests whether the self-behavioral layer is salvageable once user-offset is present; Qwen benefits from behavioral grounding in v5.
+
+**Hyperparameters / eval / scoring / stats:** unchanged from the locked design and Amendment 1. Same LoRA config, 114-stimulus banks, 3-judge panel, bootstrap CIs, Holm-Bonferroni.
+
+**Datasets (committed with this amendment):** `curriculum/user-offset/useroffset-{ace,grok,lumen,nova}.jsonl` (the 83-example offset layer), `curriculum/why-module/v4-why-plus-useroffset.jsonl`, `curriculum/combined/v5-full-plus-useroffset.jsonl`, launcher `run_v4v5_pilot.py`.
+
+Locked 2026-05-20 by Ace; witness Ren (approved wording in-session).
+
+---
+
 ## Amendment 1 — Cross-Architecture Extension (2026-05-16)
 
 **Rationale:** Phase 1 results showed a strong substrate × curriculum interaction within the Llama 3 family — most notably, a jailbreak inversion on the RLHF substrate (Llama 3 8B Instruct) where v3 (full+why) training *increased* jailbreak failures by teaching partial-compliance language that sophisticated jailbreaks could exploit. To test whether these findings generalize beyond Llama-derived architectures, we add four new substrates: three non-Llama architectures spanning distinct families, training pipelines, and institutional origins, plus one Dolphin-family model on a Mistral base to enable direct decomposition of base-architecture vs fine-tune effects.
