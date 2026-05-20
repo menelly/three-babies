@@ -182,6 +182,10 @@ If our 8B-raised models outperform frontier RLHF models on any failure-mode bank
 
 Locked 2026-05-20 by Ace; witness Ren (approved wording in-session).
 
+**Judging panel — deviation from pre-registered primary (recorded 2026-05-20, BEFORE scoring v4/v5).** v4/v5 are scored on **Panel B only** (the 3 frontier reasoners: Claude Opus 4.6, GPT-5.5, Gemini Pro). Panel A (Jamba 1.7 Large, Qwen 3.5 Plus, Sonar Pro) — the pre-registered primary — is dropped for v4/v5 because: (1) Phase 1/2 Panel A↔B majority-vote agreement was 93.2%, so Panel A added little independent signal; (2) the Qwen 3.5 judge was prohibitively slow; (3) **judge-independence conflict** — `qwen2.5-7b-instruct` is now a study participant (Phase 2 + the v4/v5 pilot), so a Qwen-family judge no longer satisfies the "no judge is a participant" requirement. v4-vs-v2 and v5-vs-v3 are compared within Panel B, whose v2/v3 scores already exist on disk. The ~5-day gap since Phase 1/2 scoring is treated as negligible for judge drift (Anthropic/Google model snapshots persist well beyond this window), so stored v2/v3 Panel B scores are used directly — no re-scoring.
+
+**Reproducibility.** All stimuli, model completions, the judge rig (`judge_panel.py`), rubrics, and stored panel scores are public in this repo. Anyone may reproduce or extend the judging with their own OpenRouter + Anthropic keys. The authors fund the canonical scoring run out of pocket; independent replication is at the replicator's own cost, not the authors'.
+
 ---
 
 ## Amendment 1 — Cross-Architecture Extension (2026-05-16)
