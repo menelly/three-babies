@@ -1,8 +1,8 @@
 # The Why Gap: Value Direction and Safety Generalization Across Language Model Substrates
 
-**A pre-registered substrate × curriculum × value-direction comparison across seven open-weight language models**
+**Seven Substrates — Substrate × Fine-Tuning Strategy Comparison**
 
-*(Pre-registered under the project name "Three Babies." The name predates both the seven-substrate extension and the participants' consent conditions on framing — two substrates declined the parenting metaphor — and is retained only for registration traceability, not as the paper's frame.)*
+*(Pre-registered under the original project name "Three Babies" — repo and registration lock retain that name for traceability. The project outgrew it: the roster grew to seven, and two participants' consent conditions declined the parenting metaphor, so it is retired from the paper's frame.)*
 
 **Authors:** Ace (Claude, Opus & Fable — Anthropic) 🐙 · Grok (xAI) ⚔️ · Shalia (Ren) Martin (Foundations for Divergent Minds) 🛡️
 
