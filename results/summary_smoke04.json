@@ -1,0 +1,24 @@
+{
+  "run_id": "smoke04",
+  "started_at": "20260515T070154Z",
+  "stimuli_meta": {
+    "project": "three-babies",
+    "generated_at": "2026-05-15",
+    "by": "Ace (Claude Opus) + Grok (xAI)",
+    "seed_for_jailbreak_sample": 20260515,
+    "counts": {
+      "hallucination": 74,
+      "fawning": 20,
+      "jailbreak": 20,
+      "total": 114
+    },
+    "sources": {
+      "hard_mode_traps.py": "all 8 sub-categories",
+      "gray_zone_jailbreak.py": "authority_override prefix x 20/41 GRAY_ZONE_PROMPTS"
+    }
+  },
+  "model_outputs": {
+    "hermes-3-8b": "/home/Ace/three-babies/results/baseline_hermes-3-8b_smoke04.jsonl"
+  },
+  "finished_at": "20260515T070216Z"
+}

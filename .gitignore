@@ -32,3 +32,8 @@ logs/
 
 # Jupyter
 .ipynb_checkpoints/
+.venv-train/
+unsloth_compiled_cache/
+__pycache__/
+*.pyc
+*.so

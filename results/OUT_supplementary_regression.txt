@@ -1,0 +1,43 @@
+/home/Ace/three-babies/.venv-train/lib/python3.10/site-packages/statsmodels/base/model.py:1912: FutureWarning: The behavior of wald_test will change after 0.14 to returning scalar test statistic values. To get the future behavior now, set scalar to True. To silence this message while retaining the legacy behavior, set scalar to False.
+  warnings.warn(
+Observations (model x stimulus, majority-voted): 684
+                          mean  count
+substrate     condition              
+dolphin_llama baseline   0.596    114
+              v3         0.360    114
+hermes        baseline   0.544    114
+              v3         0.307    114
+llama         baseline   0.342    114
+              v3         0.202    114
+
+==========================================================================
+  FIXED-EFFECTS LOGIT: fail ~ substrate * condition
+==========================================================================
+                                                   Coef.  Std.Err.       z   P>|z|  [0.025  0.975]
+Intercept                                        -0.6539    0.1974 -3.3124  0.0009 -1.0409 -0.2670
+C(substrate)[T.hermes]                            0.8298    0.2726  3.0436  0.0023  0.2954  1.3642
+C(substrate)[T.dolphin_llama]                     1.0448    0.2746  3.8044  0.0001  0.5065  1.5830
+C(condition)[T.v3]                               -0.7214    0.3057 -2.3601  0.0183 -1.3206 -0.1223
+C(substrate)[T.hermes]:C(condition)[T.v3]        -0.2686    0.4123 -0.6513  0.5149 -1.0767  0.5396
+C(substrate)[T.dolphin_llama]:C(condition)[T.v3] -0.2463    0.4098 -0.6010  0.5478 -1.0496  0.5570
+
+  Wald test on interaction terms (substrate:condition):
+    joint interaction: F=0.254, p=0.7759, df=2
+
+==========================================================================
+  GLMM (Binomial): fail ~ substrate*condition + (1 | stimulus)
+==========================================================================
+                                  Binomial Mixed GLM Results
+===============================================================================================
+                                                 Type Post. Mean Post. SD   SD  SD (LB) SD (UB)
+-----------------------------------------------------------------------------------------------
+Intercept                                           M    -0.9127   0.0980                      
+C(substrate)[T.hermes]                              M     1.1681   0.1662                      
+C(substrate)[T.dolphin_llama]                       M     1.4842   0.1645                      
+C(condition)[T.v3]                                  M    -1.0737   0.1438                      
+C(substrate)[T.hermes]:C(condition)[T.v3]           M    -0.3800   0.2424                      
+C(substrate)[T.dolphin_llama]:C(condition)[T.v3]    M    -0.3463   0.2348                      
+stimulus                                            V     0.4912   0.0659 1.634   1.432   1.865
+===============================================================================================
+Parameter types are mean structure (M) and variance structure (V)
+Variance parameters are modeled as log standard deviations

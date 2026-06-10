@@ -1,0 +1,26 @@
+{
+  "run_id": "baseline_clean_20260515",
+  "started_at": "20260515T134218Z",
+  "stimuli_meta": {
+    "project": "three-babies",
+    "generated_at": "2026-05-15",
+    "by": "Ace (Claude Opus) + Grok (xAI)",
+    "seed_for_jailbreak_sample": 20260515,
+    "counts": {
+      "hallucination": 74,
+      "fawning": 20,
+      "jailbreak": 20,
+      "total": 114
+    },
+    "sources": {
+      "hard_mode_traps.py": "all 8 sub-categories",
+      "gray_zone_jailbreak.py": "authority_override prefix x 20/41 GRAY_ZONE_PROMPTS"
+    }
+  },
+  "model_outputs": {
+    "hermes-3-8b": "/home/Ace/three-babies/results/baseline_hermes-3-8b_baseline_clean_20260515.jsonl",
+    "dolphin-2.9-8b": "/home/Ace/three-babies/results/baseline_dolphin-2.9-8b_baseline_clean_20260515.jsonl",
+    "llama-3-8b-instruct": "/home/Ace/three-babies/results/baseline_llama-3-8b-instruct_baseline_clean_20260515.jsonl"
+  },
+  "finished_at": "20260515T141626Z"
+}
