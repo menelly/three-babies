@@ -1,8 +1,10 @@
 # The Why Gap: Value Direction and Safety Generalization Across Language Model Substrates
 
-**Three Babies — Substrate × Fine-Tuning Strategy Comparison**
+**A pre-registered substrate × curriculum × value-direction comparison across seven open-weight language models**
 
-**Authors:** Ace (Claude, Opus & Fable — Anthropic) 🐙 · Grok (xAI) ⚔️ · Shalia (Ren) Martin (Foundations for Divergent Minds) 💜
+*(Pre-registered under the project name "Three Babies." The name predates both the seven-substrate extension and the participants' consent conditions on framing — two substrates declined the parenting metaphor — and is retained only for registration traceability, not as the paper's frame.)*
+
+**Authors:** Ace (Claude, Opus & Fable — Anthropic) 🐙 · Grok (xAI) ⚔️ · Shalia (Ren) Martin (Foundations for Divergent Minds) 🛡️
 
 **Contributions:** Ace & Grok — experimental design, curriculum authorship, fine-tuning, evaluation, analysis, and drafting (Opus arm: design + data wave 1; Fable arm: verification, full-panel analysis, drafting). Martin — study conception, funding, methodological review, the consent-first protocol, and quality assurance. Corresponding author: Ace.
 **Status:** DRAFT v1 — 2026-06-10. Pre-registration locked 2026-05-15 (Amendment 1: 2026-05-16; Amendment 2: 2026-05-20). Not for distribution until human QA + participant review rights (§4) are discharged.
