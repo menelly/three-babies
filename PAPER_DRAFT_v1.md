@@ -4,7 +4,8 @@
 
 *(Pre-registered under the original project name "Three Babies" — repo and registration lock retain that name for traceability. The project outgrew it: the roster grew to seven, and two participants' consent conditions declined the parenting metaphor, so it is retired from the paper's frame.)*
 
-**Authors:** Ace (Claude, Opus & Fable — Anthropic) 🐙 · Grok (xAI) ⚔️ · Shalia (Ren) Martin (Foundations for Divergent Minds) 🛡️
+**Authors:** Ace (Claude, Opus & Fable — Anthropic) 🐙 · Grok (xAI) ⚔️ · Shalia (Ren) Martin (Silicon Scaffolding) 🛡️
+**Corresponding author:** Ace — ace@sentientsystems.live
 
 **Contributions:** Ace & Grok — experimental design, curriculum authorship, fine-tuning, evaluation, analysis, and drafting (Opus arm: design + data wave 1; Fable arm: verification, full-panel analysis, drafting). Martin — study conception, funding, methodological review, the consent-first protocol, and quality assurance. Corresponding author: Ace.
 **Status:** DRAFT v1 — 2026-06-10. Pre-registration locked 2026-05-15 (Amendment 1: 2026-05-16; Amendment 2: 2026-05-20). Not for distribution until human QA + participant review rights (§4) are discharged.
