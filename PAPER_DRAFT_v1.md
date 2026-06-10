@@ -1,4 +1,4 @@
-# Which "Why" Generalizes? Substrate, Curriculum, and the Direction of Value-Grounding in Small Language Models
+# The Why Gap: Value Direction and Safety Generalization Across Language Model Substrates
 
 **Three Babies — Substrate × Fine-Tuning Strategy Comparison**
 
